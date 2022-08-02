@@ -2,7 +2,7 @@ from bs4 import *
 import requests
 import os
 from PIL import Image
-from .models import ProductImage
+from .models import ProductImage, ProductImageSource
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
@@ -29,6 +29,12 @@ def download_images(images, folder_name, url):
 
     # Checking if images is not zero
     if len(images) != 0:
+        # Create Image source
+        source = ProductImageSource()
+        source.source_url = url
+        source.name = url
+        source.save()
+
         for i, image in enumerate(images):
             """
             Fetch image Source URL from image tag , like-
@@ -78,6 +84,7 @@ def download_images(images, folder_name, url):
 
                         # Saving image data to corresponding model
                         product_image = ProductImage()
+                        product_image.source = source
                         product_image.original_image = img.filename[6:]
                         product_image.original_url = image_link
                         product_image.width = img.size[0]
