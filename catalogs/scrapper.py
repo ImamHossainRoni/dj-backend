@@ -20,7 +20,7 @@ def create_directory(dir_name):
     return media_directory + dir_name
 
 
-def download_images(images, folder_name):
+def download_images(images, folder_name, url):
     image_link = ''
     count = 0
 
@@ -75,9 +75,15 @@ def download_images(images, folder_name):
                     with open(f"{folder_name}/images{i + 1}.jpg", "wb+") as f:
                         f.write(response)
                         img = Image.open(f.name)
+
                         # Saving image data to corresponding model
                         product_image = ProductImage()
                         product_image.original_image = img.filename[6:]
+                        product_image.original_url = image_link
+                        product_image.width = img.size[0]
+                        product_image.height = img.size[1]
+                        product_image.description = image["alt"]
+                        product_image.title = f.name
                         product_image.save()
 
                     # Counting number of images downloaded
@@ -105,4 +111,4 @@ def main():
     #  Call this to create directory
     dir_name = create_directory(dir_name='scrapped-images')
     # To download images
-    download_images(images, dir_name)
+    download_images(images, dir_name, url)
