@@ -2,19 +2,22 @@ from bs4 import *
 import requests
 import os
 from PIL import Image
+from .models import ProductImage
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 def create_directory(dir_name):
     """Create directory"""
+    media_directory = 'media/'
     try:
         # Directory creation
-        os.mkdir(dir_name)
+        os.makedirs(media_directory + dir_name)
 
     # if directory exists with that name, ask another name
     except Exception as e:
         print("Directory Exist with this name!")
 
-    return dir_name
+    return media_directory + dir_name
 
 
 def download_images(images, folder_name):
@@ -72,6 +75,10 @@ def download_images(images, folder_name):
                     with open(f"{folder_name}/images{i + 1}.jpg", "wb+") as f:
                         f.write(response)
                         img = Image.open(f.name)
+                        # Saving image data to corresponding model
+                        product_image = ProductImage()
+                        product_image.original_image = img.filename[6:]
+                        product_image.save()
 
                     # Counting number of images downloaded
                     count += 1
@@ -99,7 +106,3 @@ def main():
     dir_name = create_directory(dir_name='scrapped-images')
     # To download images
     download_images(images, dir_name)
-
-
-if __name__ == '__main__':
-    main()
