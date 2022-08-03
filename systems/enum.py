@@ -25,3 +25,7 @@ class BaseEnum(Enum):
         return value in cls._value2member_map_
 
 
+class ImageSize(BaseEnum):
+    SMALL = 256
+    MEDIUM = 1024
+    LARGE = 2048
