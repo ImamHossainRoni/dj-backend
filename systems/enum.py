@@ -24,6 +24,10 @@ class BaseEnum(Enum):
     def has_value(cls, value):
         return value in cls._value2member_map_
 
+    @classmethod
+    def has_key(cls, key):
+        return True if key in [item.name for item in cls] else False
+
 
 class ImageSize(BaseEnum):
     SMALL = 256
