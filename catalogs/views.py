@@ -13,6 +13,15 @@ from systems.paginations import StandardResultsSetPagination
 class ProductImageRetrieveAPIView(RetrieveAPIView):
     serializer_class = ProductImageSerializer
     queryset = ProductImage.active_objects.all()
+    lookup_field = 'pk'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, args, kwargs)
+
+
+class ProductImageListAPIView(ListAPIView):
+    serializer_class = ProductImageSerializer
+    queryset = ProductImage.active_objects.all()
 
     def get(self, request, *args, **kwargs):
         paginator = StandardResultsSetPagination()

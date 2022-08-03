@@ -13,6 +13,8 @@ class ProductImageSourceSerializer(ModelSerializer):
 
 
 class ProductImageSerializer(ModelSerializer):
+    source = ProductImageSourceSerializer()
+
     class Meta:
         model = ProductImage
         exclude = [
