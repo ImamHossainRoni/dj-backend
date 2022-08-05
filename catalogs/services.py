@@ -30,6 +30,11 @@ def make_expected_image(query, image_obj):
     original_height = image_obj.height
     original_width = image_obj.width
     height, width = get_expected_image_size(query, original_height, original_width)
+
+    if height > original_height and width > original_width:
+        """If the size parameter is larger than the actual size of the image then upscale is not necessary"""
+        return True
+
     if width:
         original_image = Image.open(image_obj.original_image.path)
         new_image = original_image.resize((width, height), Image.ANTIALIAS)
