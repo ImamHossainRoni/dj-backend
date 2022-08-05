@@ -2,6 +2,7 @@ from systems.enum import ImageSize
 from PIL import Image
 import os, sys
 from django.conf import settings
+import re
 
 """ Here is service layer of this app. 
     There is no base service implemented yet as though its a simple application.
@@ -69,3 +70,9 @@ def get_expected_image_size(query, original_height, original_width):
     image_width = get_query_to_image_width(query)
     expected_height = int((image_width * original_height) / original_width)
     return expected_height, image_width
+
+
+def url_to_name(url_name):
+    url = re.compile(r"https?://(www\.)?")
+    url = url.sub('', url_name).strip().strip('/')
+    return url

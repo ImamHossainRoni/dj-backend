@@ -5,6 +5,8 @@ from PIL import Image
 from .models import ProductImage, ProductImageSource
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from .services import url_to_name
+
 
 def create_directory(dir_name):
     """Create directory"""
@@ -32,7 +34,7 @@ def download_images(images, folder_name, url):
         # Create Image source
         source = ProductImageSource()
         source.source_url = url
-        source.name = url
+        source.name = url_to_name(url)
         source.save()
 
         for i, image in enumerate(images):
@@ -78,7 +80,7 @@ def download_images(images, folder_name, url):
                 except UnicodeDecodeError:
 
                     # After checking above condition, Image downloading will be started
-                    with open(f"{folder_name}/images{i + 1}.jpg", "wb+") as f:
+                    with open(f"{folder_name}/images{i + 1}.png", "wb+") as f:
                         f.write(response)
                         img = Image.open(f.name)
 
