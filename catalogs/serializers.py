@@ -22,6 +22,9 @@ class ProductImageSerializer(ModelSerializer):
         query = request.query_params.get('size')
 
         image_width = get_query_to_image_width(query)
+        original_image_url = None
+        if not (not instance.original_image):
+            original_image_url = request.build_absolute_uri(instance.original_image.url)
 
         data = {
             'id': instance.id,
@@ -29,17 +32,20 @@ class ProductImageSerializer(ModelSerializer):
             'description': instance.description,
             'created_at': instance.created_at,
             'original_image_source_url': instance.original_url,
-            'image_url': request.build_absolute_uri(instance.original_image.url),
+            'image_url': original_image_url,
             'previous_height': instance.height,
             'previous_width': instance.width,
             'source': ProductImageSourceSerializer(instance.source).data,
         }
         if image_width == 256:
-            data['image_url'] = request.build_absolute_uri(instance.small_image.url)
+            if not (not instance.small_image):
+                data['image_url'] = request.build_absolute_uri(instance.small_image.url)
         if image_width == 1024:
-            data['image_url'] = request.build_absolute_uri(instance.medium_image.url)
+            if not (not instance.medium_image):
+                data['image_url'] = request.build_absolute_uri(instance.medium_image.url)
         if image_width == 2048:
-            data['image_url'] = request.build_absolute_uri(instance.large_image.url)
+            if not (not instance.large_image):
+                data['image_url'] = request.build_absolute_uri(instance.large_image.url)
 
         return data
 
