@@ -1,3 +1,6 @@
+# crime-zonefff
+A social crime sharing site including three types of user such as general user,law enforcement user and admin.General user can share any crime ,give star for specific crime post,comment  for specific crime post ,reply for specific comment.User will make it issue by giving star,comment and reply.Law enforcement user can  take any action if the issue if formed and he can suspend user and that suspended user get an email notification.
+
 ## Dj-Backend:
 It's simple REST API backend for Product catalog image scrapping and image resizing etc. :)
 
