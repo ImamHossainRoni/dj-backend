@@ -16,11 +16,12 @@ We can easily run the "dj_backend" project using Docker and Docker Compose for q
 
    ```bash
    docker build -t dj_backend .
+   ```
 
  ```bash
    docker-compose up --build -d # To run
-   docker-compose stop  #To stop
-
+   docker-compose stop  # To stop
+```
 
 🕵️ **How to Scrape Images:**
 To scrape images, simply run our custom management command: `python manage.py scrape`
